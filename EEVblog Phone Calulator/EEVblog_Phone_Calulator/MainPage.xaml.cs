@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-
+//By David Ledger 2017
 namespace EEVblog_Phone_Calulator
 {
     public partial class MainPage : ContentPage
