@@ -4,10 +4,5 @@
              xmlns:local="clr-namespace:EEVblog_Phone_Calulator"
              x:Class="EEVblog_Phone_Calulator.MainPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
