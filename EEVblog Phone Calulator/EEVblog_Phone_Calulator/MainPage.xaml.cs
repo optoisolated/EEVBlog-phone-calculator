@@ -26,6 +26,7 @@ namespace EEVblog_Phone_Calulator
         Label ResultLabel = MakeLabel();
         Label BufferLabel = MakeLabel();
 
+#region Properties
         private double _Buffer = 0;
         public double Buffer
         {
@@ -53,26 +54,62 @@ namespace EEVblog_Phone_Calulator
                 ResultLabel.Text = _Result.ToString();
             }
         }
+#endregion
+#region Keypad_Buttons
+        //
+        private void KeypadButton_Pressed(int index)
+        {
+            Buffer *= 10.0;
+            Buffer += (double)index;
+        }
+#endregion
+#region Operation_Buttons
+        private void Multiply_Pressed(object sender, EventArgs e)
+        {
+            Result *= Buffer;
+            Buffer = 0.0;
+        }
+        private void Divide_Pressed(object sender, EventArgs e)
+        {
+            if (Buffer == 0)
+                BufferLabel.Text = "Cannot divide by zero.";
+            else
+            {
+                Result /= Buffer;
+                Buffer = 0.0;
+            }
+        }
+        private void Minus_Pressed(object sender, EventArgs e)
+        {
+            Result -= Buffer;
+            Buffer = 0.0;
+        }
+        private void Plus_Pressed(object sender, EventArgs e)
+        {
+            Result += Buffer;
+            Buffer = 0.0;
+        }
+        #endregion
 
-		public MainPage()
-		{
-			InitializeComponent();
+        public MainPage()
+        {
+            InitializeComponent();
 
             //Operation buttons
-            var button_font     =   Device.GetNamedSize(NamedSize.Large, typeof(Button));
-            var button_layout   =   new LayoutOptions(LayoutAlignment.Center, false);
-            Plus                =   new Button() { Text = "+" ,    FontSize = button_font, BackgroundColor = Color.Gray};
-            Minus               =   new Button() { Text = "-",    FontSize = button_font, BackgroundColor = Color.Gray};
-            Divide              =   new Button() { Text = "/",   FontSize = button_font, BackgroundColor = Color.Gray};
-            Multiply            =   new Button() { Text = "x", FontSize = button_font, BackgroundColor = Color.Gray};
-            Plus.Pressed        +=  Plus_Pressed;
-            Minus.Pressed       +=  Minus_Pressed;
-            Divide.Pressed      +=  Divide_Pressed;
-            Multiply.Pressed    +=  Multiply_Pressed;
+            var button_font = Device.GetNamedSize(NamedSize.Large, typeof(Button));
+            var button_layout = new LayoutOptions(LayoutAlignment.Center, false);
+            Plus = new Button() { Text = "+", FontSize = button_font, BackgroundColor = Color.Gray };
+            Minus = new Button() { Text = "-", FontSize = button_font, BackgroundColor = Color.Gray };
+            Divide = new Button() { Text = "/", FontSize = button_font, BackgroundColor = Color.Gray };
+            Multiply = new Button() { Text = "x", FontSize = button_font, BackgroundColor = Color.Gray };
+            Plus.Pressed += Plus_Pressed;
+            Minus.Pressed += Minus_Pressed;
+            Divide.Pressed += Divide_Pressed;
+            Multiply.Pressed += Multiply_Pressed;
 
             //Keypad buttons
             Keypad = new Button[10];
-            for(var index = 0; index < Keypad.Count(); ++index)
+            for (var index = 0; index < Keypad.Count(); ++index)
             {
                 ref var button = ref Keypad[index];
                 button = new Button() { Text = index.ToString(), FontSize = button_font };
@@ -90,11 +127,11 @@ namespace EEVblog_Phone_Calulator
             grid.AutoAdd(ResultLabel, 2);
 
             //Set the keypad grid positions
-            for (var index = Keypad.Count() - 1; index >= 0 ; --index)
+            for (var index = Keypad.Count() - 1; index >= 0; --index)
             {
                 ref var button = ref Keypad[index_remapper[index]];
-                if (index != 0)     grid.AutoAdd(button);
-                else                grid.AutoAdd(button, 2);
+                if (index != 0) grid.AutoAdd(button);
+                else grid.AutoAdd(button, 2);
             }
 
             //Setup the buttons
@@ -106,45 +143,5 @@ namespace EEVblog_Phone_Calulator
             //Show it hello
             Content = grid;
         }
-
-        #region Operation_Buttons
-        private void KeypadButton_Pressed(int index)
-        {
-            Buffer *= 10.0;
-            Buffer += (double)index;
-        }
-        #endregion
-        #region Operation_Buttons
-        /////////////////////////////////////////////////////////////
-        //Operation buttons
-        private void Multiply_Pressed(object sender, EventArgs e)
-        {
-            Result *= Buffer;
-            Buffer = 0.0;
-        }
-        private void Divide_Pressed(object sender, EventArgs e)
-        {
-            if (Buffer == 0)
-            {
-                BufferLabel.Text = "Cannot divide by zero.";
-            }
-            else
-            {
-                Result /= Buffer;
-                Buffer = 0.0;
-            }
-        }
-        private void Minus_Pressed(object sender, EventArgs e)
-        {
-            Result -= Buffer;
-            Buffer = 0.0;
-        }
-        private void Plus_Pressed(object sender, EventArgs e)
-        {
-            Result += Buffer;
-            Buffer = 0.0;
-        }
-        /////////////////////////////////////////////////////////////
-#endregion
     }
 }
